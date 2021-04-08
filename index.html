@@ -107,8 +107,8 @@
 			</div>
 			<div>
 				<button id="button">Määritä päivämäärä</button>
-				<input type="text" name="dateupdate" id="dateupdate">pvm(pp/kk/vvvv)
-				<input type="text" name="timeupdate" id="timeupdate">klo(hh:mm:ss)
+				<input type="date" name="dateupdate" id="dateupdate">pvm(pp/kk/vvvv)
+				<input type="time" name="timeupdate" id="timeupdate">klo(hh:mm:ss)
 			</div>
 			
 		</div>
@@ -122,11 +122,8 @@
 			button.onclick = function(){
 				var a = dateupdate.value;
 				var b = timeupdate.value;
-				dateupdate.value = "";
-				timeupdate.value = "";
-				c = a.split("/");
-				d = b.split(":");
-				var newDate = new Date(c[2], c[1], c[0], d[0], d[1], d[2]);	
+
+				var newDate = new Date(a + ' ' + b);	
 				if (isNaN(newDate.getTime())) {
 					alert("Error, väärä päivämäärä");
 				} else {
