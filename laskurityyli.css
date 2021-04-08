@@ -1,0 +1,7 @@
+.hidden-div {
+  visibility: hidden;
+}
+.visible-div {
+  visibility: visible;
+  color: #ffff00;
+}

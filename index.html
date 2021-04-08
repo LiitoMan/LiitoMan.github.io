@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+		<link rel="stylesheet" href="laskurityyli.css">
+		<style>
+			h1
+			{
+				font-size: 40px;
+				color: #ffff00;
+			}
+			#time_div
+			{
+				font-size: 40px;
+				color: #ffff00;
+			}
+			body
+			{
+				background-image: url("testivoittaja.png");
+				color: #ffff00;
+			}
+			#timeIsNow
+			{
+				font-size: 100px;
+				color: #ffff00
+			}
+			.hidden-div 
+			{
+				visibility: hidden;
+			}
+			.visible-div 
+			{
+				visibility: visible;
+			}
+		</style>
+	
+		<script>
+			
+			function remainingTime(target_time)
+			{
+			  
+			  var t = Date.parse(target_time) - Date.parse(new Date());
+			  
+			  var seconds = Math.floor((t / 1000) % 60);
+			  
+			  var minutes = Math.floor((t / 1000 / 60) % 60);
+			  // jne.
+			  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+			  var days = Math.floor(t / (1000 * 60 * 60 * 24));
+			  
+			  return {
+				'remaining': t,
+				'days': days,
+				'hours': hours,
+				'minutes': minutes,
+				'seconds': seconds
+			  };
+			}
+			// Funktio alustaa ja päivittää laskuria
+			// id: HTML-elementti, jossa laskuri näytetään koostuu elementeistä
+			// .days, .hours, .minutes ja .seconds
+			// target_time: kohdeaika, johon laskuri päättyy
+			function initCounter(id) 
+			{
+			  // etsitään päivitettävät HTML-elementit
+			  var counter = document.getElementById(id);
+			  var daysSpan = counter.querySelector('.days');
+			  var hoursSpan = counter.querySelector(".hours");
+			  var minutesSpan = counter.querySelector(".minutes");
+			  var secondsSpan = counter.querySelector(".seconds");
+			  // tehdään sisäfunktio, jota kutsutaan myöhemmin 100 millisekunnin välein jatkuvasti
+			  function updateCounter() 
+			  {
+				var t = remainingTime(wappu);
+				if (t.remaining <= 0) {
+					document.getElementById("time_div").className = "hidden-div";
+					document.getElementById("timeIsNow").className = "visible-div";
+					clearInterval(timeinterval);
+					return true;
+				}
+				daysSpan.innerHTML = t.days;
+				hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+				minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+				secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+				
+				 }
+			 
+		  
+			  updateCounter();
+			  var timeinterval = setInterval(updateCounter, 100);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+		<h1>Wappuun on aikaa...</h1>
+			<div id="time_div" class="visible-div">
+				<span class="days"></span> päivää
+				<span class="hours"></span> tuntia
+				<span class="minutes"></span> minuuttia
+				<span class="seconds"></span> sekunttia
+			</div>
+			<div id="timeIsNow" class="hidden-div">
+				WAPPU!!
+				<iframe width="1000" height="500" src="https://www.youtube.com/embed/1AnG04qnLqI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+			<div>
+				<button id="button">Määritä päivämäärä</button>
+				<input type="date" name="dateupdate" id="dateupdate">pvm.
+				<input type="time" name="timeupdate" id="timeupdate">klo.
+			
+		</div>
+    	<script>
+			const dateupdate = document.querySelector("#dateupdate");
+			const timeupdate = document.querySelector("#timeupdate");
+			const button = document.querySelector("#button");
+			
+    		var wappu = new Date("1 May, 2021 UTC+2");
+    		initCounter('time_div');
+			button.onclick = function(){
+				var a = dateupdate.value;
+				var b = timeupdate.value;
+
+				var newDate = new Date(a + ' ' + b);	
+				if (isNaN(newDate.getTime())) {
+					alert("Error, väärä päivämäärä");
+				} else {
+					wappu = newDate;
+					}
+			}
+    	</script>
+		
+	</body>
+	
+</html>
